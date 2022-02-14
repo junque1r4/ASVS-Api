@@ -1,30 +1,41 @@
 from fastapi import APIRouter
-from Config.db import connection
+from Config.db import collection, get_json_file
 from Schemas.verification import verificationEntity, verificationEntitys
+from Models.models import Requirement
 
 
 router = APIRouter()
 
 
-@router.get("/auth")
+@router.get("/import")
+async def index():
+    return get_json_file()
+
+
+@router.get('/all')
 async def auth():
-    print(";")
-    return verificationEntitys(connection.auth_nist.verification.find())
+    return verificationEntitys(collection.find())
 
 
-# TODO:
-@router.post("/auth")
+@router.post('/all')
+async def insert_requirement(requirement: Requirement):
+    collection.insert_one(requirement.dict())
+    return verificationEntity(collection.find_one(requirement.dict()))
+
+
+# TODO: implemnt /auth
+@router.get('/auth')
 async def auth():
     pass
 
 
-# TODO
-@router.get("/session_management")
+# TODO: implemnt /session_management
+@router.get('/session_management')
 async def session_management():
     pass
 
 
-# TODO
-@router.get("/input_sanitization")
+# TODO: implemnt /input_sanitization
+@router.get('/input_sanitization')
 async def input_sanitization():
     pass

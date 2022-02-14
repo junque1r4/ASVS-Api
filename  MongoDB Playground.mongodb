@@ -1,0 +1,10 @@
+// MongoDB Playground
+
+const database = 'nist';
+const collection = 'data';
+
+// Create a new database.
+use(database);
+
+// Create a new collection.
+db.createCollection(collection);

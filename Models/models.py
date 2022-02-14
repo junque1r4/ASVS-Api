@@ -2,10 +2,16 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class Item(BaseModel):
-    area: str
-    id: str
-    criticity: str
+class Requirement(BaseModel):
+    chapter_id: Optional[str] = None
+    chapter_name: Optional[str] = None
+    section_id: Optional[str] = None
+    section_name: Optional[str] = None
+    req_id: Optional[str] = None
+    req_description: Optional[str]= None
+    level1: Optional[bool] = None
+    level2: Optional[bool] = None
+    level3: Optional[bool] = None
     cwe: Optional[str] = None
-    NIST: Optional[str] = None
-    requisito: str
+    nist: Optional[str] = None
+
