@@ -1,41 +1,44 @@
 from fastapi import APIRouter
 from Config.db import collection, get_json_file
-from Schemas.verification import verificationEntity, verificationEntitys
-from Models.models import Requirement
+from Schemas.verification import verificationEntitys
 
 
 router = APIRouter()
 
 
-@router.get("/import")
-async def index():
-    return get_json_file()
-
-
-@router.get('/all')
+@router.get("/all")
 async def auth():
-    return verificationEntitys(collection.find())
+    """
+    This endpoint will return all the data from the DB.
+    """
+    try:
+        all_data = get_json_file()
+        return verificationEntitys(all_data)
+    except Exception as e:
+        return {"error": str(e)}
 
 
-@router.post('/all')
-async def insert_requirement(requirement: Requirement):
-    collection.insert_one(requirement.dict())
-    return verificationEntity(collection.find_one(requirement.dict()))
+@router.get("/chapter/{chapter}")
+async def auth(chapter: str):
+    """
+    This endpoint will return all the requirements for a specific chapter
+    Ex: /chapter/1
+    """
+    try:
+        return verificationEntitys(collection.find({"chapter": f"V{chapter}"}))
+    except:
+        return {"message": "Chapter not found"}
+    return
 
 
-# TODO: implemnt /auth
-@router.get('/auth')
-async def auth():
-    pass
-
-
-# TODO: implemnt /session_management
-@router.get('/session_management')
-async def session_management():
-    pass
-
-
-# TODO: implemnt /input_sanitization
-@router.get('/input_sanitization')
-async def input_sanitization():
-    pass
+@router.post("/load_db")
+async def insert_data():
+    """
+    This endpoint is load the local json file to the database.
+    """
+    try:
+        data = get_json_file()
+        response = collection.insert_many(verificationEntitys(data))
+        return {"message": "Successfully inserted data to the database."}
+    except Exception as e:
+        return {"error": str(e)}

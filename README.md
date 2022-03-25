@@ -1,3 +1,13 @@
-## ASVS Api
+# ASVS Api
 
-### construcao de uma api que mostra requisitos do ASVS e tambem faz calculos de pontuacao de acordo com os requisitos preenchidos
+## Api para buscas de requisitos do ASVS
+
+Ideia surgiu dos meus estudos de engenharia de software, quando eu estava trabalhando com o [ASVS](https://asvs.org.br/).
+
+### Documentação  
+
+/docs
+
+### Proximos passos
+
+-[] Testes com pytest.  
